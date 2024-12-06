@@ -1,11 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  root: './src',
-  build : {
-    outDir: '../../wwwroot',
-  }
-})
+  root: './src',  // Your frontend code directory
+  build: {
+    sourcemap: true,
+    outDir: '../wwwroot',  // Output to your backend's wwwroot folder in production
+    assetsDir: 'assets',  // Folder for your static assets
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5001',  // Proxy API calls to your backend during development
+    },
+  },
+});

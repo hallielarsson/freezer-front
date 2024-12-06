@@ -1,0 +1,66 @@
+/* src/styles.css or any other main css file */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles */
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f7fafc;
+  color: #2d3748;
+}
+
+#root {
+  width: 100%;
+  height: vh100;
+}
+
+.container {
+  @apply flex justify-center items-center flex-col;
+  /* Ensures everything is centered */
+}
+
+
+/* Custom Shadow */
+.shadow-custom {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* Button Styling */
+.button {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors;
+}
+
+/* Input Styling */
+.form-input {
+  @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+/* Listbox Options Styling */
+.listbox-option {
+  @apply py-2 px-4 cursor-pointer;
+}
+
+.listbox-option:hover {
+  @apply bg-blue-100;
+}
+
+/* Loading & Error Text */
+.loading-text {
+  @apply text-gray-500;
+}
+
+.error-text {
+  @apply text-red-500;
+}
+
+/* Inventory List Styling */
+.inventory-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.inventory-item {
+  @apply py-2 px-4 border-b border-gray-600;
+}
+

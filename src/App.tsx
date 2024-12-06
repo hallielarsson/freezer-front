@@ -1,53 +1,60 @@
-import './App.css'; // Import your custom CSS for styling
+// src/App.tsx
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './store/store';
+import './App.scss'; // Importing SCSS for custom styling
+import { fetchInventory } from './slices/inventorySlice';
+import { AppDispatch } from './store/store';
+import AddItemForm from './components/AddItemForm';
+import { Dialog, DialogTitle } from '@headlessui/react'; // Correctly import Dialog from Headless UI
+import InventoryList from './components/InventoryList'; // Import the InventoryList component
+import { INVENTORY_OPTIONS } from './data/InventoryItem';
 
-function App() {
+const App: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { items, status, error } = useSelector((state: RootState) => state.inventory);
+  
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to fetch inventory (replace with your actual API call)
-  const fetchInventory = async () => {
-    // Replace with your API endpoint and data handling
-    const response = await fetch('/api/inventory');
-    const inventory = await response.json();
-    // Update state or display inventory data
-    console.log('Inventory:', inventory);
-  };
+  useEffect(() => {
+    dispatch(fetchInventory());
+  }, [dispatch]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="bg-gray-100 text-gray-900">  {/* Apply base styles from old HTML */}
-      <div className="container mx-auto p-6">  {/* Apply container class */}
-        <h1 className="text-4xl font-bold mb-8 text-center">Pantry Tracker</h1> {/* Title from old HTML */}
-        <div className="flex flex-wrap justify-between">
-          {/* Add Item Form (replace with your AddItemForm component) */}
-          <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold mb-4">Add Item</h2>
-            <form id="addItemForm">
-              <div className="mb-4">
-                <label htmlFor="itemName" className="block text-sm font-medium">Item Name</label>
-                <input type="text" className="w-full p-2 border border-gray-300 rounded-lg" id="itemName" required />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="itemLocation" className="block text-sm font-medium">Location</label>
-                <input type="text" className="w-full p-2 border border-gray-300 rounded-lg" id="itemLocation" required />
-              </div>
-              <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-lg">Add Item</button>
-            </form>
-          </div>
+    <div className="text-gray-900">
+      <div className="container mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-4 text-center">Freezer App</h1>
 
-          {/* Inventory List (replace with your InventoryList component) */}
-          <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold mb-4">Current Inventory</h2>
-            <ul id="inventoryList" className="space-y-4">
-              {/* Inventory items will be dynamically loaded here (use fetched data) */}
-            </ul>
-          </div>
+        {/* Add Item Button */}
+        <div className="text-center mb-6">
+          <button 
+            className="add-item-button py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 small" 
+            onClick={openModal}
+          >
+            Add Item
+          </button>
         </div>
 
-        {/* Button to fetch inventory (optional) */}
-        <button onClick={fetchInventory} className="mt-4 bg-blue-500 text-white p-2 rounded-lg">
-          Get Inventory Data
-        </button>
+        {/* Inventory List Component */}
+        <InventoryList items={items} status={status} error={error} />
+
+        {/* Modal for Add Item Form */}
+        <Dialog open={isModalOpen} onClose={closeModal}>
+          <div className="modal-content fixed inset-1/4 bg-white p-6 rounded-sm w-full max-w-md">
+            <DialogTitle className="text-xl font-bold mb-4">Add New Item</DialogTitle>
+            <button onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+              X
+            </button>
+            <AddItemForm inventoryOptions={INVENTORY_OPTIONS} closeModal={closeModal} />
+          </div>
+        </Dialog>
       </div>
     </div>
   );
-}
+};
 
 export default App;
