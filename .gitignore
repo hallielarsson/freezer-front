@@ -23,7 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 wwwroot/index.html
-wwwroot/assets/index-BQNcAAZs.css
-wwwroot/assets/index-CQBeiOAE.js
-wwwroot/assets/index-DR8l9x8U.css
-wwwroot/assets/index-nKh2F-Lb.js
+wwwroot/assets/*
+freezer.code-workspace

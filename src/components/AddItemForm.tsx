@@ -91,7 +91,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ inventoryOptions }) => {
             Location
           </label>
           <Listbox value={location} onChange={setLocation}>
-            {({ open }) => (
+            {({  }) => (
               <div className="relative">
                 <ListboxButton className="listbox-button w-full p-3 border border-gray-300 rounded-md text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                   {location || 'Select Location'}
